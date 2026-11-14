@@ -2,6 +2,7 @@
 .DS_Store
 
 # 本地私人输入与导出物。公开样例只允许放在 fixtures/ 下。
+private-resume/
 *.md
 !README.md
 !AGENTS.md
