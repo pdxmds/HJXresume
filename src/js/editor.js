@@ -92,24 +92,14 @@ function initEditor() {
     _lastInputHistory = { key, type: e.inputType, time: now };
   });
 
-  // Enter in contact information creates a user-controlled line break.
-  // Other single-line fields blur; bullet Enter creates a new bullet below.
+  // The four personal-information fields use a fixed 2×2 grid. Enter keeps
+  // them single-line instead of creating user-controlled separators.
   content.addEventListener("keydown", (e) => {
     const el = e.target;
-    if (e.key === "Backspace" && el.classList.contains("contact-value")) {
-      const selection = window.getSelection();
-      const range = selection && selection.rangeCount ? selection.getRangeAt(0) : null;
-      const offsets = range ? getSelectionOffsets(el, range) : null;
-      if (offsets && offsets.start === 0 && offsets.end === 0
-        && removeContactLineBreakBefore(el.dataset.profileField)) {
-        e.preventDefault();
-      }
-      return;
-    }
     if (e.key !== "Enter") return;
     if (el.classList.contains("contact-value")) {
       e.preventDefault();
-      addContactLineBreakAfter(el.dataset.profileField);
+      el.blur();
       return;
     }
     if (el.classList.contains("bullet-item")) {
@@ -1685,13 +1675,7 @@ function syncElementToState(el) {
   // Profile field
   if (el.dataset.profileField) {
     const field = el.dataset.profileField;
-    if (field === "headline") {
-      state.profile.headline = raw;
-    } else if (field === "phone") {
-      state.profile.phone = raw.replace(/^联系电话：/, "").trim();
-    } else if (field === "email") {
-      state.profile.email = raw.replace(/^电子邮箱：/, "").trim();
-    } else if (field === "portfolio") {
+    if (field === "portfolio") {
       const current = getPortfolioContact(state.profile.portfolio);
       state.profile.portfolio = raw && current && current.href
         ? `${raw} | ${current.href}`

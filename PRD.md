@@ -314,8 +314,8 @@ HTML 和 CSS 统一控制：
 
 模板包含：
 
-* 姓名和求职方向；
-* 联系方式；
+* 姓名；
+* 两列两行个人信息（联系电话、E-mail、籍贯、出生年月）；
 * 证件照；
 * 教育经历；
 * 实习或工作经历；
@@ -343,10 +343,10 @@ CSS 统一控制：
 导入后，用户可以直接点击以下内容修改：
 
 * 姓名；
-* 求职方向；
-* 地点；
 * 电话；
 * 邮箱；
+* 籍贯；
+* 出生年月；
 * 学校；
 * 专业和学历；
 * 公司；
@@ -540,7 +540,7 @@ window.print()
 
 恢复操作不影响已经下载的 HTML 和 PDF 文件。
 
-## 九、Markdown Schema v1
+## 九、Markdown Schema v2
 
 第一版只支持固定格式。
 
@@ -548,13 +548,13 @@ window.print()
 
 ```markdown
 ---
-schema_version: 1
+schema_version: 2
 resume_name: 示例科技-产品经理
 name: 示例用户
-headline: AI 产品经理
-location: 上海
 phone: 180xxxxxxxx
 email: example@example.com
+native_place: 海州市
+birth_date: 2002.10
 ---
 
 ## education
@@ -609,7 +609,6 @@ date: 2026.05–2026.07
 schema_version
 resume_name
 name
-headline
 phone
 email
 ```
@@ -617,7 +616,8 @@ email
 选填字段：
 
 ```text
-location
+native_place
+birth_date
 website
 portfolio
 github

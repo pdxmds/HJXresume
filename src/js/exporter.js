@@ -10,18 +10,19 @@
  */
 function serializeStateToMarkdown(state) {
   const cleanScalar = (value) => String(value || "").replace(/[\r\n]+/g, " ").trim();
+  const profile = migrateProfilePersonalInfo(state.profile);
   const formatterState = encodeURIComponent(JSON.stringify(createFormatterFileState(state)));
   const lines = ["---", "schema_version: 2"];
   const frontmatter = [
     ["resume_name", state.resumeName],
-    ["name", state.profile.name],
-    ["headline", state.profile.headline],
-    ["location", state.profile.location],
-    ["phone", state.profile.phone],
-    ["email", state.profile.email],
-    ["website", state.profile.website],
-    ["portfolio", state.profile.portfolio],
-    ["github", state.profile.github],
+    ["name", profile.name],
+    ["phone", profile.phone],
+    ["email", profile.email],
+    ["native_place", profile.nativePlace],
+    ["birth_date", profile.birthDate],
+    ["website", profile.website],
+    ["portfolio", profile.portfolio],
+    ["github", profile.github],
     ["photo", state.photo && state.photo.source],
     [FORMATTER_STATE_FIELD, formatterState],
   ];
@@ -145,18 +146,19 @@ function serializeInlineMarkdown(tokens) {
 
 /** Serialize Resume State to the supported JSON import schema. */
 function serializeStateToJson(state) {
+  const profile = migrateProfilePersonalInfo(state.profile);
   const data = {
     schemaVersion: 2,
     resumeName: state.resumeName || "",
     profile: {
-      name: state.profile.name || "",
-      headline: state.profile.headline || "",
-      location: state.profile.location || "",
-      phone: state.profile.phone || "",
-      email: state.profile.email || "",
-      website: state.profile.website || "",
-      portfolio: state.profile.portfolio || "",
-      github: state.profile.github || "",
+      name: profile.name || "",
+      phone: profile.phone || "",
+      email: profile.email || "",
+      nativePlace: profile.nativePlace || "",
+      birthDate: profile.birthDate || "",
+      website: profile.website || "",
+      portfolio: profile.portfolio || "",
+      github: profile.github || "",
     },
     sections: (state.sections || []).map((section) => ({
       type: section.type,

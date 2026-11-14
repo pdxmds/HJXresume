@@ -48,8 +48,10 @@ test("匿名 Markdown fixture 可以解析并生成 Resume State", () => {
   const result = evaluate(markdown, "sample-resume.md");
 
   assert.ok(result.state);
-  assert.equal(result.state.schemaVersion, 1);
+  assert.equal(result.state.schemaVersion, 2);
   assert.equal(result.state.source.fileName, "sample-resume.md");
+  assert.equal(result.state.profile.nativePlace, "浙江杭州");
+  assert.equal(result.state.profile.birthDate, "2002.10");
   assert.ok(result.state.sections.some((section) => section.type === "experience"));
   assert.equal(result.errors.filter((item) => item.level === "error").length, 0);
 });
@@ -219,7 +221,7 @@ test("JSON Schema v2 支持自定义板块", () => {
   const raw = JSON.stringify({
     schemaVersion: 2,
     resumeName: "JSON 测试",
-    profile: { name: "示例用户", headline: "产品经理", phone: "1xx-xxxx-xxxx", email: "example@example.com" },
+    profile: { name: "示例用户", phone: "1xx-xxxx-xxxx", email: "example@example.com", nativePlace: "海州市", birthDate: "2002.10" },
     sections: [{
       type: "custom",
       title: "自定义标题",
@@ -241,7 +243,7 @@ test("JSON 往返会保留排版参数和逐行符号", () => {
   const raw = JSON.stringify({
     schemaVersion: 2,
     resumeName: "JSON 排版测试",
-    profile: { name: "示例用户", headline: "产品经理", phone: "1xx-xxxx-xxxx", email: "example@example.com" },
+    profile: { name: "示例用户", phone: "1xx-xxxx-xxxx", email: "example@example.com", nativePlace: "海州市", birthDate: "2002.10" },
     sections: [{ type: "skills", entries: [{ name: "", bullets: ["产品：需求分析"] }] }],
   });
   context.__json = raw;
@@ -253,9 +255,9 @@ test("JSON 往返会保留排版参数和逐行符号", () => {
   imported.state.layout.preferenceVisible = true;
   imported.state.layout.headlineVisible = false;
   imported.state.layout.locationVisible = true;
-  imported.state.layout.contactBreakBefore = ["headline"];
+  imported.state.layout.contactBreakBefore = ["nativePlace"];
   imported.state.layout.blockLinks = {
-    "profile:headline": [{ start: 0, end: 4, href: "https://example.com/profile" }],
+    "profile:nativePlace": [{ start: 0, end: 3, href: "https://example.com/profile" }],
   };
   imported.state.sections[0].spacingBefore = 2.5;
   bullet.markerStyle = "circle";
@@ -272,10 +274,10 @@ test("JSON 往返会保留排版参数和逐行符号", () => {
   assert.equal(reopened.layout.preferenceVisible, true);
   assert.equal(reopened.layout.headlineVisible, false);
   assert.equal(reopened.layout.locationVisible, true);
-  assert.deepEqual(Array.from(reopened.layout.contactBreakBefore), ["headline"]);
+  assert.deepEqual(Array.from(reopened.layout.contactBreakBefore), ["nativePlace"]);
   assert.deepEqual(
-    JSON.parse(JSON.stringify(reopened.layout.blockLinks["profile:headline"])),
-    [{ start: 0, end: 4, href: "https://example.com/profile" }],
+    JSON.parse(JSON.stringify(reopened.layout.blockLinks["profile:nativePlace"])),
+    [{ start: 0, end: 3, href: "https://example.com/profile" }],
   );
   assert.equal(reopened.sections[0].spacingBefore, 2.5);
   assert.equal(reopenedBullet.markerStyle, "circle");

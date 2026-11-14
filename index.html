@@ -1236,7 +1236,7 @@ body {
    Shared base
    ======================== */
 #resume-page {
-  width: 210mm; min-height: 297mm; background: #fff;
+  width: 210mm; min-width: 210mm; min-height: 297mm; flex-shrink: 0; background: #fff;
   box-shadow: 0 2px 16px rgba(0,0,0,0.12); position: relative; overflow: visible;
   font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
 }
@@ -1701,33 +1701,42 @@ body {
 #resume-page[data-theme] #profile-headline { display: none; }
 
 #resume-page[data-theme] #contact-info {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 8mm;
+  row-gap: 0.45mm;
+  width: 100%;
   align-items: baseline;
-  gap: 0;
   margin: 0;
   font-size: var(--font-size-contact);
+  line-height: 1.45;
 }
 
 #resume-page[data-theme] .contact-item + .contact-item::before {
-  content: "|";
-  display: inline-block;
-  margin: 0 1.2mm;
-  color: var(--color-muted, #4a4a4a);
+  content: none;
+  display: none;
 }
 #resume-page[data-theme] .contact-item {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: 5.2em minmax(0, 1fr);
   align-items: baseline;
+  min-width: 0;
   white-space: nowrap;
+  text-align: left;
 }
-#resume-page[data-theme] .contact-line-break {
-  flex: 0 0 100%;
-  width: 100%;
-  height: 0;
+#resume-page[data-theme] .contact-item[data-contact-field="email"],
+#resume-page[data-theme] .contact-item[data-contact-field="birthDate"] {
+  grid-template-columns: 4.8em minmax(0, 1fr);
 }
-#resume-page[data-theme] .contact-label { white-space: pre; }
-#resume-page[data-theme] .contact-value { min-width: 0.5em; }
+#resume-page[data-theme] .contact-label {
+  font-weight: 700;
+  white-space: pre;
+}
+#resume-page[data-theme] .contact-value {
+  min-width: 0.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 #resume-page[data-theme] .contact-link,
 #resume-page[data-theme] .inline-link {
   color: #152fb4;
@@ -2329,7 +2338,7 @@ body {
   <input type="file" id="file-input-directory" accept=".md,.markdown,.json,text/markdown,text/plain,application/json" webkitdirectory directory multiple hidden>
   <input type="file" id="file-input-photo" accept="image/jpeg,image/png,image/webp" hidden>
 
-  <script>const DEFAULT_RESUME_MD = "---\r\nschema_version: 1\r\nresume_name: 谷雨-用户增长产品经理（虚构演示）\r\nname: 谷雨\r\nheadline: 用户增长产品经理｜虚构演示数据\r\nlocation: 北京\r\nphone: 1xx-xxxx-xxxx\r\nemail: example@example.com\r\n---\r\n\r\n## 教育经历\r\n\r\n### 北京大学\r\nrole: 信息管理与信息系统｜本科\r\ndate: 2020.09–2024.06\r\nlocation: 北京\r\n\r\n- GPA 3.85/4.00，专业前 5%\r\n- 主修课程：数据挖掘、用户行为分析、产品策略、互联网营销\r\n\r\n## 实习经历\r\n\r\n### 星月岛｜成长事业群\r\nrole: 用户增长产品经理实习生\r\ndate: 2023.09–2024.03\r\nlocation: 北京\r\n\r\n- 负责**新用户激活漏斗**优化，拆解注册→首单全链路，识别核心流失节点，推动首单补贴策略迭代，30 日新用户首单转化率提升 **12%**\r\n- 设计用户分层召回体系，根据沉默时长与历史消费频次划分 4 类标签，分别匹配差异化触达策略，召回成本下降 **18%**，ROI 提升至 **1.4**\r\n- 搭建增长看板，梳理 DAU、新增、留存、付费转化等核心指标，支持业务方每日自助取数，减少分析同学人工取数需求约 **60%**\r\n\r\n### 幻彩岛｜内容电商\r\nrole: 增长产品实习生\r\ndate: 2023.03–2023.08\r\nlocation: 北京\r\n\r\n- 参与**直播间冷启动**策略设计，针对新主播设定流量扶持规则与毕业条件，协助产品经理完成需求文档、竞品分析与上线后数据复盘\r\n- 协助设计 A/B 实验方案，覆盖落地页文案、CTA 样式与激励权益三个变量，主导数据收集与显著性验证，产出可直接执行的优化建议\r\n- 输出《新主播冷启动竞品报告》，覆盖同类平台 6 项核心机制对比，被团队采纳作为策略参考\r\n\r\n### 珊瑚岛｜出行业务\r\nrole: 产品运营实习生\r\ndate: 2022.07–2022.09\r\nlocation: 北京\r\n\r\n- 梳理司机端拉新裂变链路，整理现有激励结构中的规则漏洞与用户反馈，提出 3 项优化建议，其中 1 项进入下季度规划\r\n- 参与**司机留存专项**数据分析，清洗 3 万条问卷数据，识别影响 30 日留存的关键因素，输出分析报告并完成内部宣讲\r\n\r\n## 项目经历\r\n\r\n### 用户增长实验平台设计\r\nrole: 独立项目\r\ndate: 2023.10–2024.01\r\n\r\n- 基于实习经历中对 A/B 实验管理痛点的观察，设计一套轻量级实验平台原型，覆盖实验创建、流量分配、指标配置与结果可视化四个模块\r\n- 完成 40+ 页 PRD，使用 Figma 输出高保真原型，通过 5 次用户访谈验证核心功能优先级\r\n\r\n## 技能\r\n\r\n- **产品**：需求分析、用户分层、漏斗拆解、A/B 实验设计、增量归因、PRD 撰写\r\n- **数据**：SQL、Excel、神策/Sensors Data、看板搭建\r\n- **工具**：Figma、Axure、飞书文档\r\n- **语言**：英语 CET-6 578，具备英文资料阅读及业务沟通能力\r\n";
+  <script>const DEFAULT_RESUME_MD = "---\r\nschema_version: 2\r\nresume_name: 谷雨-用户增长产品经理（虚构演示）\r\nname: 谷雨\r\nphone: 1xx-xxxx-xxxx\r\nemail: example@example.com\r\nnative_place: 浙江杭州\r\nbirth_date: 2002.10\r\n---\r\n\r\n## 教育经历\r\n\r\n### 北京大学\r\nrole: 信息管理与信息系统｜本科\r\ndate: 2020.09–2024.06\r\nlocation: 北京\r\n\r\n- GPA 3.85/4.00，专业前 5%\r\n- 主修课程：数据挖掘、用户行为分析、产品策略、互联网营销\r\n\r\n## 实习经历\r\n\r\n### 星月岛｜成长事业群\r\nrole: 用户增长产品经理实习生\r\ndate: 2023.09–2024.03\r\nlocation: 北京\r\n\r\n- 负责**新用户激活漏斗**优化，拆解注册→首单全链路，识别核心流失节点，推动首单补贴策略迭代，30 日新用户首单转化率提升 **12%**\r\n- 设计用户分层召回体系，根据沉默时长与历史消费频次划分 4 类标签，分别匹配差异化触达策略，召回成本下降 **18%**，ROI 提升至 **1.4**\r\n- 搭建增长看板，梳理 DAU、新增、留存、付费转化等核心指标，支持业务方每日自助取数，减少分析同学人工取数需求约 **60%**\r\n\r\n### 幻彩岛｜内容电商\r\nrole: 增长产品实习生\r\ndate: 2023.03–2023.08\r\nlocation: 北京\r\n\r\n- 参与**直播间冷启动**策略设计，针对新主播设定流量扶持规则与毕业条件，协助产品经理完成需求文档、竞品分析与上线后数据复盘\r\n- 协助设计 A/B 实验方案，覆盖落地页文案、CTA 样式与激励权益三个变量，主导数据收集与显著性验证，产出可直接执行的优化建议\r\n- 输出《新主播冷启动竞品报告》，覆盖同类平台 6 项核心机制对比，被团队采纳作为策略参考\r\n\r\n### 珊瑚岛｜出行业务\r\nrole: 产品运营实习生\r\ndate: 2022.07–2022.09\r\nlocation: 北京\r\n\r\n- 梳理司机端拉新裂变链路，整理现有激励结构中的规则漏洞与用户反馈，提出 3 项优化建议，其中 1 项进入下季度规划\r\n- 参与**司机留存专项**数据分析，清洗 3 万条问卷数据，识别影响 30 日留存的关键因素，输出分析报告并完成内部宣讲\r\n\r\n## 项目经历\r\n\r\n### 用户增长实验平台设计\r\nrole: 独立项目\r\ndate: 2023.10–2024.01\r\n\r\n- 基于实习经历中对 A/B 实验管理痛点的观察，设计一套轻量级实验平台原型，覆盖实验创建、流量分配、指标配置与结果可视化四个模块\r\n- 完成 40+ 页 PRD，使用 Figma 输出高保真原型，通过 5 次用户访谈验证核心功能优先级\r\n\r\n## 技能\r\n\r\n- **产品**：需求分析、用户分层、漏斗拆解、A/B 实验设计、增量归因、PRD 撰写\r\n- **数据**：SQL、Excel、神策/Sensors Data、看板搭建\r\n- **工具**：Figma、Axure、飞书文档\r\n- **语言**：英语 CET-6 578，具备英文资料阅读及业务沟通能力\r\n";
 const DEFAULT_RESUME_FILENAME = "sample-resume.md";</script>
 <script>
 // js/utils.js
@@ -2461,7 +2470,7 @@ const STATE_STORAGE_PREFIX = "resume-formatter:draft:";
 const LAST_DOCUMENT_KEY = "resume-formatter:last-document";
 
 /** @type {number} */
-const APP_VERSION = "1.1.0";
+const APP_VERSION = "1.2.0";
 
 /** @type {number} */
 const SCHEMA_VERSION_1 = 2;
@@ -2536,6 +2545,8 @@ function createDefaultState() {
       location: "",
       phone: "",
       email: "",
+      nativePlace: "",
+      birthDate: "",
       website: "",
       portfolio: "",
       github: "",
@@ -2575,6 +2586,24 @@ function createDefaultState() {
 }
 
 /**
+ * Backfill the fixed four-item personal-information model for older drafts.
+ * Legacy files used location for the city and sometimes stored a birth date in
+ * the headline. Keep those files readable without showing the old mixed row.
+ * @param {object} profile
+ * @returns {object}
+ */
+function migrateProfilePersonalInfo(profile) {
+  const next = profile && typeof profile === "object" ? profile : {};
+  if (typeof next.nativePlace !== "string") next.nativePlace = String(next.location || "");
+  if (typeof next.birthDate !== "string") {
+    const headline = String(next.headline || "");
+    const match = headline.match(/出生(?:年月|日期)\s*[：:]\s*([^｜|]+)/);
+    next.birthDate = match ? match[1].trim() : "";
+  }
+  return next;
+}
+
+/**
  * Get the current Resume State singleton.
  * @returns {object}
  */
@@ -2582,6 +2611,7 @@ function getState() {
   if (!window.__resumeState) {
     window.__resumeState = createDefaultState();
   }
+  window.__resumeState.profile = migrateProfilePersonalInfo(window.__resumeState.profile);
   return window.__resumeState;
 }
 
@@ -2590,6 +2620,7 @@ function getState() {
  * @param {object} newState
  */
 function setState(newState) {
+  newState.profile = migrateProfilePersonalInfo(newState.profile);
   (newState.sections || []).forEach((section) => {
     if (Number(section.spacingBefore) < 0) section.spacingBefore = 0;
   });
@@ -3173,10 +3204,10 @@ const JSON_EXAMPLE = `{
   "resumeName": "谷雨-用户增长产品经理（虚构演示）",
   "profile": {
     "name": "谷雨",
-    "headline": "用户增长产品经理｜虚构演示数据",
-    "location": "北京",
     "phone": "1xx-xxxx-xxxx",
     "email": "example@example.com",
+    "nativePlace": "浙江杭州",
+    "birthDate": "2002.10",
     "website": "",
     "portfolio": "",
     "github": ""
@@ -3249,10 +3280,10 @@ const MARKDOWN_EXAMPLE = `---
 schema_version: 2
 resume_name: 谷雨-用户增长产品经理（虚构演示）
 name: 谷雨
-headline: 用户增长产品经理｜虚构演示数据
-location: 北京
 phone: 1xx-xxxx-xxxx
 email: example@example.com
+native_place: 浙江杭州
+birth_date: 2002.10
 website:
 portfolio:
 github:
@@ -3346,10 +3377,10 @@ const PROMPT_PDF_TO_MD = `请完整读取我上传的 PDF 简历，并将其转�
 
 - resume_name：根据姓名和求职方向生成；无法确认求职方向时使用"姓名-个人简历"。
 - name：姓名。
-- headline：求职方向或简历标题；无法确认时留空。
-- location：当前城市或求职城市。
 - phone：联系电话。
 - email：邮箱。
+- native_place：籍贯；原文没有时留空。
+- birth_date：出生年月；保留原文格式，原文没有时留空。
 - website、portfolio、github：原文存在时填写，不存在时留空。
 - "###"后填写学校、公司或项目名称。
 - role 填写学历专业、岗位名称或项目角色。
@@ -3363,10 +3394,10 @@ const PROMPT_PDF_TO_MD = `请完整读取我上传的 PDF 简历，并将其转�
 schema_version: 2
 resume_name: 姓名-求职方向
 name: 姓名
-headline: 求职方向
-location: 城市
 phone: 电话
 email: 邮箱
+native_place: 籍贯
+birth_date: 出生年月
 website:
 portfolio:
 github:
@@ -3447,10 +3478,10 @@ const PROMPT_DOCX_TO_MD = `请完整读取我上传的 Word / DOCX 简历，并�
 schema_version: 2
 resume_name: 姓名-求职方向
 name: 姓名
-headline: 求职方向
-location: 城市
 phone: 电话
 email: 邮箱
+native_place: 籍贯
+birth_date: 出生年月
 website:
 portfolio:
 github:
@@ -3529,10 +3560,10 @@ const PROMPT_PDF_TO_JSON = `请完整读取我上传的 PDF 简历，并将其�
   "resumeName": "姓名-求职方向",
   "profile": {
     "name": "",
-    "headline": "",
-    "location": "",
     "phone": "",
     "email": "",
+    "nativePlace": "",
+    "birthDate": "",
     "website": "",
     "portfolio": "",
     "github": ""
@@ -3625,10 +3656,10 @@ JSON 结构严格使用 Resume Formatter Schema v2：
   "resumeName": "姓名-求职方向",
   "profile": {
     "name": "",
-    "headline": "",
-    "location": "",
     "phone": "",
     "email": "",
+    "nativePlace": "",
+    "birthDate": "",
     "website": "",
     "portfolio": "",
     "github": ""
@@ -3717,7 +3748,7 @@ ${errorList}`;
 4. schemaVersion 必须为 2。
 5. sections 可以使用预置类型，也可以使用带 title 和 blocks 的 custom 类型。
 6. bullets 必须是字符串数组，可以包含 **加粗** 标记。
-7. profile 必须包含 name、headline、phone、email。`;
+7. profile 必须包含 name、phone、email、nativePlace、birthDate。`;
 
   return prompt;
 }
@@ -3798,7 +3829,7 @@ function importJsonResume(rawJson, fileName) {
       suggestion: "请添加 \"profile\": { ... }。",
     });
   } else {
-    const requiredProfileFields = ["name", "headline", "phone", "email"];
+    const requiredProfileFields = ["name", "phone", "email"];
     for (const field of requiredProfileFields) {
       if (!data.profile[field] || typeof data.profile[field] !== "string") {
         errors.push({
@@ -4084,6 +4115,12 @@ function buildStateFromJson(data, fileName) {
   state.profile.location = profile.location || "";
   state.profile.phone = profile.phone || "";
   state.profile.email = profile.email || "";
+  const migratedProfile = migrateProfilePersonalInfo({
+    headline: state.profile.headline,
+    location: state.profile.location,
+  });
+  state.profile.nativePlace = profile.nativePlace || profile.native_place || migratedProfile.nativePlace;
+  state.profile.birthDate = profile.birthDate || profile.birth_date || migratedProfile.birthDate;
   state.profile.website = profile.website || "";
   state.profile.portfolio = profile.portfolio || "";
   state.profile.github = profile.github || "";
@@ -4185,6 +4222,9 @@ const REQUIRED_FRONTMATTER_FIELDS = [
 
 /** @type {string[]} */
 const OPTIONAL_FRONTMATTER_FIELDS = [
+  "native_place",
+  "birth_date",
+  // Legacy profile fields remain readable for existing resumes.
   "headline",
   "location",
   "website",
@@ -4439,7 +4479,10 @@ function applyFormatterFileState(state, formatterState) {
     ? savedLayout.locationVisible
     : legacyPreferenceVisible;
   state.layout.preferenceVisible = state.layout.headlineVisible || state.layout.locationVisible;
-  const contactFields = new Set(["phone", "email", "headline", "location", "portfolio"]);
+  const contactFields = new Set([
+    "phone", "email", "nativePlace", "birthDate",
+    "headline", "location", "portfolio",
+  ]);
   state.layout.contactBreakBefore = Array.isArray(savedLayout.contactBreakBefore)
     ? [...new Set(savedLayout.contactBreakBefore.filter((field) => contactFields.has(field)))]
     : [];
@@ -4617,6 +4660,12 @@ function buildState(frontmatter, sections, fileName) {
   state.profile.location = frontmatter.location || "";
   state.profile.phone = frontmatter.phone || "";
   state.profile.email = frontmatter.email || "";
+  const migratedProfile = migrateProfilePersonalInfo({
+    headline: state.profile.headline,
+    location: state.profile.location,
+  });
+  state.profile.nativePlace = frontmatter.native_place || migratedProfile.nativePlace;
+  state.profile.birthDate = frontmatter.birth_date || migratedProfile.birthDate;
   state.profile.website = frontmatter.website || "";
   state.profile.portfolio = frontmatter.portfolio || "";
   state.profile.github = frontmatter.github || "";
@@ -4740,98 +4789,53 @@ function renderHeader(state) {
   const contactEl = document.getElementById("contact-info");
   if (contactEl) {
     contactEl.innerHTML = "";
-    const portfolio = getPortfolioContact(profile.portfolio);
-    const layout = state.layout || {};
-    const legacyPreferenceVisible = Boolean(layout.preferenceVisible);
-    const headlineVisible = Boolean(
-      profile.headline
-      || (typeof layout.headlineVisible === "boolean" ? layout.headlineVisible : legacyPreferenceVisible)
-    );
-    const locationVisible = Boolean(
-      profile.location
-      || (typeof layout.locationVisible === "boolean" ? layout.locationVisible : legacyPreferenceVisible)
-    );
+    migrateProfilePersonalInfo(profile);
     const items = [
-      profile.phone && {
+      {
         field: "phone",
         text: profile.phone,
+        label: "联系电话：",
+        placeholder: "填写电话",
       },
-      profile.email && {
+      {
         field: "email",
         text: profile.email,
+        label: "E-mail：",
+        placeholder: "填写邮箱",
       },
       {
-        field: "headline",
-        text: profile.headline,
-        label: "求职方向：",
-        placeholder: "填写方向",
-        preferenceVisible: headlineVisible,
+        field: "nativePlace",
+        text: profile.nativePlace,
+        label: "籍　　贯：",
+        placeholder: "填写籍贯",
       },
       {
-        field: "location",
-        text: profile.location,
-        label: "期望城市：",
-        placeholder: "填写城市",
-        preferenceVisible: locationVisible,
+        field: "birthDate",
+        text: profile.birthDate,
+        label: "出生年月：",
+        placeholder: "填写年月",
       },
-      portfolio && { field: "portfolio", text: portfolio.label, href: portfolio.href },
-    ].filter(Boolean);
-    const breakBefore = new Set((state.layout && state.layout.contactBreakBefore) || []);
+    ];
 
-    items.forEach(({ field, text, href, label, placeholder, preferenceVisible }) => {
-      if (label && !preferenceVisible) {
-        const addButton = document.createElement("button");
-        addButton.className = "contact-action contact-add-preference no-print";
-        addButton.type = "button";
-        addButton.dataset.preferenceField = field;
-        addButton.textContent = `+ ${label.replace(/[：:]$/, "")}`;
-        addButton.title = `在联系方式中添加${label.replace(/[：:]$/, "")}`;
-        contactEl.appendChild(addButton);
-        return;
-      }
-
-      if (breakBefore.has(field)) {
-        const lineBreak = document.createElement("span");
-        lineBreak.className = "contact-line-break";
-        lineBreak.dataset.breakBefore = field;
-        lineBreak.setAttribute("aria-hidden", "true");
-        contactEl.appendChild(lineBreak);
-      }
+    items.forEach(({ field, text, label, placeholder }) => {
 
       const item = document.createElement("span");
-      item.className = `contact-item${label ? " contact-preference-item" : ""}`;
+      item.className = "contact-item";
       item.dataset.contactField = field;
-      if (label) {
-        const labelEl = document.createElement("span");
-        labelEl.className = "contact-label";
-        labelEl.textContent = label;
-        item.appendChild(labelEl);
-      }
+      const labelEl = document.createElement("span");
+      labelEl.className = "contact-label";
+      labelEl.textContent = label;
+      item.appendChild(labelEl);
 
-      const value = document.createElement(href ? "a" : "span");
-      value.className = `contact-value editable-placeholder${href ? " contact-link" : ""}`;
+      const value = document.createElement("span");
+      value.className = "contact-value editable-placeholder";
       value.textContent = text;
       value.dataset.profileField = field;
       value.dataset.empty = text ? "false" : "true";
-      if (placeholder) value.dataset.placeholder = placeholder;
+      value.dataset.placeholder = placeholder;
       value.contentEditable = "plaintext-only";
-      if (href) {
-        value.href = href;
-        value.target = "_blank";
-        value.rel = "noopener noreferrer";
-      }
+      value.setAttribute("aria-label", `${label.replace(/[：:]$/, "")}，${placeholder}`);
       item.appendChild(value);
-
-      if (label) {
-        const removeButton = document.createElement("button");
-        removeButton.className = "contact-action contact-remove-preference no-print";
-        removeButton.type = "button";
-        removeButton.dataset.preferenceField = field;
-        removeButton.textContent = "×";
-        removeButton.title = `删除${label.replace(/[：:]$/, "")}`;
-        removeButton.setAttribute("aria-label", removeButton.title);
-        item.appendChild(removeButton);
-      }
       contactEl.appendChild(item);
     });
   }
@@ -5450,24 +5454,14 @@ function initEditor() {
     _lastInputHistory = { key, type: e.inputType, time: now };
   });
 
-  // Enter in contact information creates a user-controlled line break.
-  // Other single-line fields blur; bullet Enter creates a new bullet below.
+  // The four personal-information fields use a fixed 2×2 grid. Enter keeps
+  // them single-line instead of creating user-controlled separators.
   content.addEventListener("keydown", (e) => {
     const el = e.target;
-    if (e.key === "Backspace" && el.classList.contains("contact-value")) {
-      const selection = window.getSelection();
-      const range = selection && selection.rangeCount ? selection.getRangeAt(0) : null;
-      const offsets = range ? getSelectionOffsets(el, range) : null;
-      if (offsets && offsets.start === 0 && offsets.end === 0
-        && removeContactLineBreakBefore(el.dataset.profileField)) {
-        e.preventDefault();
-      }
-      return;
-    }
     if (e.key !== "Enter") return;
     if (el.classList.contains("contact-value")) {
       e.preventDefault();
-      addContactLineBreakAfter(el.dataset.profileField);
+      el.blur();
       return;
     }
     if (el.classList.contains("bullet-item")) {
@@ -7043,13 +7037,7 @@ function syncElementToState(el) {
   // Profile field
   if (el.dataset.profileField) {
     const field = el.dataset.profileField;
-    if (field === "headline") {
-      state.profile.headline = raw;
-    } else if (field === "phone") {
-      state.profile.phone = raw.replace(/^联系电话：/, "").trim();
-    } else if (field === "email") {
-      state.profile.email = raw.replace(/^电子邮箱：/, "").trim();
-    } else if (field === "portfolio") {
+    if (field === "portfolio") {
       const current = getPortfolioContact(state.profile.portfolio);
       state.profile.portfolio = raw && current && current.href
         ? `${raw} | ${current.href}`
@@ -7355,18 +7343,19 @@ function loadInitialState() {
  */
 function serializeStateToMarkdown(state) {
   const cleanScalar = (value) => String(value || "").replace(/[\r\n]+/g, " ").trim();
+  const profile = migrateProfilePersonalInfo(state.profile);
   const formatterState = encodeURIComponent(JSON.stringify(createFormatterFileState(state)));
   const lines = ["---", "schema_version: 2"];
   const frontmatter = [
     ["resume_name", state.resumeName],
-    ["name", state.profile.name],
-    ["headline", state.profile.headline],
-    ["location", state.profile.location],
-    ["phone", state.profile.phone],
-    ["email", state.profile.email],
-    ["website", state.profile.website],
-    ["portfolio", state.profile.portfolio],
-    ["github", state.profile.github],
+    ["name", profile.name],
+    ["phone", profile.phone],
+    ["email", profile.email],
+    ["native_place", profile.nativePlace],
+    ["birth_date", profile.birthDate],
+    ["website", profile.website],
+    ["portfolio", profile.portfolio],
+    ["github", profile.github],
     ["photo", state.photo && state.photo.source],
     [FORMATTER_STATE_FIELD, formatterState],
   ];
@@ -7490,18 +7479,19 @@ function serializeInlineMarkdown(tokens) {
 
 /** Serialize Resume State to the supported JSON import schema. */
 function serializeStateToJson(state) {
+  const profile = migrateProfilePersonalInfo(state.profile);
   const data = {
     schemaVersion: 2,
     resumeName: state.resumeName || "",
     profile: {
-      name: state.profile.name || "",
-      headline: state.profile.headline || "",
-      location: state.profile.location || "",
-      phone: state.profile.phone || "",
-      email: state.profile.email || "",
-      website: state.profile.website || "",
-      portfolio: state.profile.portfolio || "",
-      github: state.profile.github || "",
+      name: profile.name || "",
+      phone: profile.phone || "",
+      email: profile.email || "",
+      nativePlace: profile.nativePlace || "",
+      birthDate: profile.birthDate || "",
+      website: profile.website || "",
+      portfolio: profile.portfolio || "",
+      github: profile.github || "",
     },
     sections: (state.sections || []).map((section) => ({
       type: section.type,
@@ -8588,16 +8578,17 @@ function applyThemeVisual(theme) {
 }
 
 /**
- * Download a blank Schema v1 MD template.
+ * Download a blank Schema v2 MD template.
  */
 function handleNewResume() {
   const template = `---
-schema_version: 1
+schema_version: 2
 resume_name: 公司名-岗位
 name: 姓名
-headline: 求职方向
 phone: 手机号
 email: 邮箱
+native_place: 籍贯
+birth_date: 出生年月
 ---
 
 ## 教育经历

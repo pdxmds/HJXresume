@@ -58,98 +58,53 @@ function renderHeader(state) {
   const contactEl = document.getElementById("contact-info");
   if (contactEl) {
     contactEl.innerHTML = "";
-    const portfolio = getPortfolioContact(profile.portfolio);
-    const layout = state.layout || {};
-    const legacyPreferenceVisible = Boolean(layout.preferenceVisible);
-    const headlineVisible = Boolean(
-      profile.headline
-      || (typeof layout.headlineVisible === "boolean" ? layout.headlineVisible : legacyPreferenceVisible)
-    );
-    const locationVisible = Boolean(
-      profile.location
-      || (typeof layout.locationVisible === "boolean" ? layout.locationVisible : legacyPreferenceVisible)
-    );
+    migrateProfilePersonalInfo(profile);
     const items = [
-      profile.phone && {
+      {
         field: "phone",
         text: profile.phone,
+        label: "联系电话：",
+        placeholder: "填写电话",
       },
-      profile.email && {
+      {
         field: "email",
         text: profile.email,
+        label: "E-mail：",
+        placeholder: "填写邮箱",
       },
       {
-        field: "headline",
-        text: profile.headline,
-        label: "求职方向：",
-        placeholder: "填写方向",
-        preferenceVisible: headlineVisible,
+        field: "nativePlace",
+        text: profile.nativePlace,
+        label: "籍　　贯：",
+        placeholder: "填写籍贯",
       },
       {
-        field: "location",
-        text: profile.location,
-        label: "期望城市：",
-        placeholder: "填写城市",
-        preferenceVisible: locationVisible,
+        field: "birthDate",
+        text: profile.birthDate,
+        label: "出生年月：",
+        placeholder: "填写年月",
       },
-      portfolio && { field: "portfolio", text: portfolio.label, href: portfolio.href },
-    ].filter(Boolean);
-    const breakBefore = new Set((state.layout && state.layout.contactBreakBefore) || []);
+    ];
 
-    items.forEach(({ field, text, href, label, placeholder, preferenceVisible }) => {
-      if (label && !preferenceVisible) {
-        const addButton = document.createElement("button");
-        addButton.className = "contact-action contact-add-preference no-print";
-        addButton.type = "button";
-        addButton.dataset.preferenceField = field;
-        addButton.textContent = `+ ${label.replace(/[：:]$/, "")}`;
-        addButton.title = `在联系方式中添加${label.replace(/[：:]$/, "")}`;
-        contactEl.appendChild(addButton);
-        return;
-      }
-
-      if (breakBefore.has(field)) {
-        const lineBreak = document.createElement("span");
-        lineBreak.className = "contact-line-break";
-        lineBreak.dataset.breakBefore = field;
-        lineBreak.setAttribute("aria-hidden", "true");
-        contactEl.appendChild(lineBreak);
-      }
+    items.forEach(({ field, text, label, placeholder }) => {
 
       const item = document.createElement("span");
-      item.className = `contact-item${label ? " contact-preference-item" : ""}`;
+      item.className = "contact-item";
       item.dataset.contactField = field;
-      if (label) {
-        const labelEl = document.createElement("span");
-        labelEl.className = "contact-label";
-        labelEl.textContent = label;
-        item.appendChild(labelEl);
-      }
+      const labelEl = document.createElement("span");
+      labelEl.className = "contact-label";
+      labelEl.textContent = label;
+      item.appendChild(labelEl);
 
-      const value = document.createElement(href ? "a" : "span");
-      value.className = `contact-value editable-placeholder${href ? " contact-link" : ""}`;
+      const value = document.createElement("span");
+      value.className = "contact-value editable-placeholder";
       value.textContent = text;
       value.dataset.profileField = field;
       value.dataset.empty = text ? "false" : "true";
-      if (placeholder) value.dataset.placeholder = placeholder;
+      value.dataset.placeholder = placeholder;
       value.contentEditable = "plaintext-only";
-      if (href) {
-        value.href = href;
-        value.target = "_blank";
-        value.rel = "noopener noreferrer";
-      }
+      value.setAttribute("aria-label", `${label.replace(/[：:]$/, "")}，${placeholder}`);
       item.appendChild(value);
-
-      if (label) {
-        const removeButton = document.createElement("button");
-        removeButton.className = "contact-action contact-remove-preference no-print";
-        removeButton.type = "button";
-        removeButton.dataset.preferenceField = field;
-        removeButton.textContent = "×";
-        removeButton.title = `删除${label.replace(/[：:]$/, "")}`;
-        removeButton.setAttribute("aria-label", removeButton.title);
-        item.appendChild(removeButton);
-      }
       contactEl.appendChild(item);
     });
   }

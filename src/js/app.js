@@ -275,16 +275,17 @@ function applyThemeVisual(theme) {
 }
 
 /**
- * Download a blank Schema v1 MD template.
+ * Download a blank Schema v2 MD template.
  */
 function handleNewResume() {
   const template = `---
-schema_version: 1
+schema_version: 2
 resume_name: 公司名-岗位
 name: 姓名
-headline: 求职方向
 phone: 手机号
 email: 邮箱
+native_place: 籍贯
+birth_date: 出生年月
 ---
 
 ## 教育经历

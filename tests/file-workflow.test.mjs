@@ -84,20 +84,20 @@ test("打开单个 Markdown 后保存覆盖原文件，另存为后切换到新�
   await vm.runInContext("openResumeFile({ click() {} })", context);
   assert.equal(vm.runInContext("getActiveSourceFile().handle === originalHandle", context), true);
 
-  vm.runInContext("getState().profile.headline = '保存覆盖验证'", context);
+  vm.runInContext("getState().profile.nativePlace = '保存覆盖验证'", context);
   await vm.runInContext("handleSave()", context);
   assert.equal(originalHandle.writes, 1);
-  assert.match(originalHandle.text, /headline: 保存覆盖验证/);
+  assert.match(originalHandle.text, /native_place: 保存覆盖验证/);
 
   await vm.runInContext("handleSaveAs()", context);
   assert.equal(copyHandle.writes, 1);
   assert.equal(vm.runInContext("getActiveSourceFile().handle === copyHandle", context), true);
 
-  vm.runInContext("getState().profile.headline = '副本后续保存验证'", context);
+  vm.runInContext("getState().profile.nativePlace = '副本后续保存验证'", context);
   await vm.runInContext("handleSave()", context);
   assert.equal(originalHandle.writes, 1);
   assert.equal(copyHandle.writes, 2);
-  assert.match(copyHandle.text, /headline: 副本后续保存验证/);
+  assert.match(copyHandle.text, /native_place: 副本后续保存验证/);
 });
 
 test("打开 JSON 后保存和另存为都沿用 JSON 格式", async () => {
@@ -107,9 +107,10 @@ test("打开 JSON 后保存和另存为都沿用 JSON 格式", async () => {
     resumeName: "JSON 保存验证",
     profile: {
       name: "示例用户",
-      headline: "产品经理",
       phone: "1xx-xxxx-xxxx",
       email: "example@example.com",
+      nativePlace: "海州市",
+      birthDate: "2002.10",
     },
     sections: [{
       type: "skills",
@@ -131,7 +132,8 @@ test("打开 JSON 后保存和另存为都沿用 JSON 格式", async () => {
   await vm.runInContext("handleSave()", context);
 
   const saved = JSON.parse(originalHandle.text);
-  assert.equal(saved.profile.headline, "产品经理");
+  assert.equal(saved.profile.nativePlace, "海州市");
+  assert.equal(saved.profile.birthDate, "2002.10");
   assert.equal(saved.formatterState.layout.theme, "d");
   assert.equal(saved.formatterState.sections[0].entries[0].bullets[0].markerStyle, "circle");
 

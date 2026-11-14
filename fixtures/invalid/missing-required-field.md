@@ -8,4 +8,4 @@ name: 缺少必填字段
 ### 某大学
 role: 本科
 
-- 缺少 phone、email、headline、resume_name
+- 缺少 phone、email、resume_name

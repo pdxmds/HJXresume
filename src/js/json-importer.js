@@ -58,10 +58,10 @@ const JSON_EXAMPLE = `{
   "resumeName": "谷雨-用户增长产品经理（虚构演示）",
   "profile": {
     "name": "谷雨",
-    "headline": "用户增长产品经理｜虚构演示数据",
-    "location": "北京",
     "phone": "1xx-xxxx-xxxx",
     "email": "example@example.com",
+    "nativePlace": "浙江杭州",
+    "birthDate": "2002.10",
     "website": "",
     "portfolio": "",
     "github": ""
@@ -134,10 +134,10 @@ const MARKDOWN_EXAMPLE = `---
 schema_version: 2
 resume_name: 谷雨-用户增长产品经理（虚构演示）
 name: 谷雨
-headline: 用户增长产品经理｜虚构演示数据
-location: 北京
 phone: 1xx-xxxx-xxxx
 email: example@example.com
+native_place: 浙江杭州
+birth_date: 2002.10
 website:
 portfolio:
 github:
@@ -231,10 +231,10 @@ const PROMPT_PDF_TO_MD = `请完整读取我上传的 PDF 简历，并将其转�
 
 - resume_name：根据姓名和求职方向生成；无法确认求职方向时使用"姓名-个人简历"。
 - name：姓名。
-- headline：求职方向或简历标题；无法确认时留空。
-- location：当前城市或求职城市。
 - phone：联系电话。
 - email：邮箱。
+- native_place：籍贯；原文没有时留空。
+- birth_date：出生年月；保留原文格式，原文没有时留空。
 - website、portfolio、github：原文存在时填写，不存在时留空。
 - "###"后填写学校、公司或项目名称。
 - role 填写学历专业、岗位名称或项目角色。
@@ -248,10 +248,10 @@ const PROMPT_PDF_TO_MD = `请完整读取我上传的 PDF 简历，并将其转�
 schema_version: 2
 resume_name: 姓名-求职方向
 name: 姓名
-headline: 求职方向
-location: 城市
 phone: 电话
 email: 邮箱
+native_place: 籍贯
+birth_date: 出生年月
 website:
 portfolio:
 github:
@@ -332,10 +332,10 @@ const PROMPT_DOCX_TO_MD = `请完整读取我上传的 Word / DOCX 简历，并�
 schema_version: 2
 resume_name: 姓名-求职方向
 name: 姓名
-headline: 求职方向
-location: 城市
 phone: 电话
 email: 邮箱
+native_place: 籍贯
+birth_date: 出生年月
 website:
 portfolio:
 github:
@@ -414,10 +414,10 @@ const PROMPT_PDF_TO_JSON = `请完整读取我上传的 PDF 简历，并将其�
   "resumeName": "姓名-求职方向",
   "profile": {
     "name": "",
-    "headline": "",
-    "location": "",
     "phone": "",
     "email": "",
+    "nativePlace": "",
+    "birthDate": "",
     "website": "",
     "portfolio": "",
     "github": ""
@@ -510,10 +510,10 @@ JSON 结构严格使用 Resume Formatter Schema v2：
   "resumeName": "姓名-求职方向",
   "profile": {
     "name": "",
-    "headline": "",
-    "location": "",
     "phone": "",
     "email": "",
+    "nativePlace": "",
+    "birthDate": "",
     "website": "",
     "portfolio": "",
     "github": ""
@@ -602,7 +602,7 @@ ${errorList}`;
 4. schemaVersion 必须为 2。
 5. sections 可以使用预置类型，也可以使用带 title 和 blocks 的 custom 类型。
 6. bullets 必须是字符串数组，可以包含 **加粗** 标记。
-7. profile 必须包含 name、headline、phone、email。`;
+7. profile 必须包含 name、phone、email、nativePlace、birthDate。`;
 
   return prompt;
 }
@@ -683,7 +683,7 @@ function importJsonResume(rawJson, fileName) {
       suggestion: "请添加 \"profile\": { ... }。",
     });
   } else {
-    const requiredProfileFields = ["name", "headline", "phone", "email"];
+    const requiredProfileFields = ["name", "phone", "email"];
     for (const field of requiredProfileFields) {
       if (!data.profile[field] || typeof data.profile[field] !== "string") {
         errors.push({
@@ -969,6 +969,12 @@ function buildStateFromJson(data, fileName) {
   state.profile.location = profile.location || "";
   state.profile.phone = profile.phone || "";
   state.profile.email = profile.email || "";
+  const migratedProfile = migrateProfilePersonalInfo({
+    headline: state.profile.headline,
+    location: state.profile.location,
+  });
+  state.profile.nativePlace = profile.nativePlace || profile.native_place || migratedProfile.nativePlace;
+  state.profile.birthDate = profile.birthDate || profile.birth_date || migratedProfile.birthDate;
   state.profile.website = profile.website || "";
   state.profile.portfolio = profile.portfolio || "";
   state.profile.github = profile.github || "";

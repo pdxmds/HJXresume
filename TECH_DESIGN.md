@@ -178,10 +178,10 @@ DOM
 
   profile: {
     name: "示例用户",
-    headline: "AI 产品经理",
-    location: "上海",
     phone: "180xxxxxxxx",
     email: "example@example.com",
+    nativePlace: "海州市",
+    birthDate: "2002.10",
     website: "",
     portfolio: "",
     github: ""
@@ -644,9 +644,10 @@ contenteditable="plaintext-only"
 标量字段禁止换行，包括：
 
 * 姓名；
-* headline；
 * phone；
 * email；
+* nativePlace；
+* birthDate；
 * 公司名称；
 * role；
 * date；
@@ -1045,9 +1046,10 @@ const overflow =
 
 * A4 是否溢出；
 * 姓名是否为空；
-* headline 是否为空；
 * phone 是否为空；
 * email 是否为空；
+* nativePlace 是否为空；
+* birthDate 是否为空；
 * 是否存在占位符；
 * 是否存在未处理的导入 Warning；
 * 是否存在尚未完成的编辑状态；

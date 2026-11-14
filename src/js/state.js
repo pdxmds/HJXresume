@@ -10,7 +10,7 @@ const STATE_STORAGE_PREFIX = "resume-formatter:draft:";
 const LAST_DOCUMENT_KEY = "resume-formatter:last-document";
 
 /** @type {number} */
-const APP_VERSION = "1.1.0";
+const APP_VERSION = "1.2.0";
 
 /** @type {number} */
 const SCHEMA_VERSION_1 = 2;
@@ -85,6 +85,8 @@ function createDefaultState() {
       location: "",
       phone: "",
       email: "",
+      nativePlace: "",
+      birthDate: "",
       website: "",
       portfolio: "",
       github: "",
@@ -124,6 +126,24 @@ function createDefaultState() {
 }
 
 /**
+ * Backfill the fixed four-item personal-information model for older drafts.
+ * Legacy files used location for the city and sometimes stored a birth date in
+ * the headline. Keep those files readable without showing the old mixed row.
+ * @param {object} profile
+ * @returns {object}
+ */
+function migrateProfilePersonalInfo(profile) {
+  const next = profile && typeof profile === "object" ? profile : {};
+  if (typeof next.nativePlace !== "string") next.nativePlace = String(next.location || "");
+  if (typeof next.birthDate !== "string") {
+    const headline = String(next.headline || "");
+    const match = headline.match(/出生(?:年月|日期)\s*[：:]\s*([^｜|]+)/);
+    next.birthDate = match ? match[1].trim() : "";
+  }
+  return next;
+}
+
+/**
  * Get the current Resume State singleton.
  * @returns {object}
  */
@@ -131,6 +151,7 @@ function getState() {
   if (!window.__resumeState) {
     window.__resumeState = createDefaultState();
   }
+  window.__resumeState.profile = migrateProfilePersonalInfo(window.__resumeState.profile);
   return window.__resumeState;
 }
 
@@ -139,6 +160,7 @@ function getState() {
  * @param {object} newState
  */
 function setState(newState) {
+  newState.profile = migrateProfilePersonalInfo(newState.profile);
   (newState.sections || []).forEach((section) => {
     if (Number(section.spacingBefore) < 0) section.spacingBefore = 0;
   });

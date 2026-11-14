@@ -1,11 +1,11 @@
 ---
-schema_version: 1
+schema_version: 2
 resume_name: 谷雨-用户增长产品经理（虚构演示）
 name: 谷雨
-headline: 用户增长产品经理｜虚构演示数据
-location: 北京
 phone: 1xx-xxxx-xxxx
 email: example@example.com
+native_place: 浙江杭州
+birth_date: 2002.10
 ---
 
 ## 教育经历

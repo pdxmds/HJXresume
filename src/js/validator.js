@@ -14,6 +14,9 @@ const REQUIRED_FRONTMATTER_FIELDS = [
 
 /** @type {string[]} */
 const OPTIONAL_FRONTMATTER_FIELDS = [
+  "native_place",
+  "birth_date",
+  // Legacy profile fields remain readable for existing resumes.
   "headline",
   "location",
   "website",
@@ -268,7 +271,10 @@ function applyFormatterFileState(state, formatterState) {
     ? savedLayout.locationVisible
     : legacyPreferenceVisible;
   state.layout.preferenceVisible = state.layout.headlineVisible || state.layout.locationVisible;
-  const contactFields = new Set(["phone", "email", "headline", "location", "portfolio"]);
+  const contactFields = new Set([
+    "phone", "email", "nativePlace", "birthDate",
+    "headline", "location", "portfolio",
+  ]);
   state.layout.contactBreakBefore = Array.isArray(savedLayout.contactBreakBefore)
     ? [...new Set(savedLayout.contactBreakBefore.filter((field) => contactFields.has(field)))]
     : [];
@@ -446,6 +452,12 @@ function buildState(frontmatter, sections, fileName) {
   state.profile.location = frontmatter.location || "";
   state.profile.phone = frontmatter.phone || "";
   state.profile.email = frontmatter.email || "";
+  const migratedProfile = migrateProfilePersonalInfo({
+    headline: state.profile.headline,
+    location: state.profile.location,
+  });
+  state.profile.nativePlace = frontmatter.native_place || migratedProfile.nativePlace;
+  state.profile.birthDate = frontmatter.birth_date || migratedProfile.birthDate;
   state.profile.website = frontmatter.website || "";
   state.profile.portfolio = frontmatter.portfolio || "";
   state.profile.github = frontmatter.github || "";
