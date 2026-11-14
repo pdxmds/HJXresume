@@ -1672,22 +1672,24 @@ body {
 #resume-page[data-theme] #resume-header {
   position: relative;
   display: grid;
-  grid-template-columns: var(--photo-w) minmax(0, 1fr) var(--photo-w);
+  grid-template-columns: minmax(0, 1fr) var(--photo-w);
+  column-gap: 8mm;
   align-items: flex-start;
-  min-height: 21mm;
+  min-height: var(--photo-h);
   margin-bottom: 0.8mm;
   padding-bottom: 0;
   border-bottom: none;
 }
 
 #resume-page[data-theme] #header-info {
-  grid-column: 2;
+  grid-column: 1;
   min-width: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 5mm 0 0;
+  align-items: flex-start;
+  text-align: left;
+  padding: 0.4mm 0 0;
 }
 
 #resume-page[data-theme] #profile-name {
@@ -1696,6 +1698,8 @@ body {
   margin: 0 0 0.8mm;
   letter-spacing: 2px;
   line-height: 1.12;
+  width: 100%;
+  text-align: left;
 }
 
 #resume-page[data-theme] #profile-headline { display: none; }
@@ -1767,11 +1771,11 @@ body {
 #resume-page[data-theme] #photo-container {
   position: absolute;
   right: calc(0mm - var(--photo-frame-offset-x));
-  grid-column: 3;
+  grid-column: 2;
   justify-self: end;
   width: var(--photo-w);
   height: var(--photo-h);
-  top: calc(3mm + var(--photo-frame-offset-y));
+  top: calc(0mm + var(--photo-frame-offset-y));
   transform: none;
 }
 
@@ -2270,7 +2274,7 @@ body {
           <header id="resume-header">
             <div id="header-info">
               <button id="header-position-handle" class="header-position-handle no-print" type="button"
-                title="上下拖动姓名区域；双击恢复居中" aria-label="上下调整姓名区域位置">
+                title="上下拖动姓名区域；双击恢复默认位置" aria-label="上下调整姓名区域位置">
                 <span aria-hidden="true">↕</span>
                 <span class="header-position-value" aria-hidden="true">0.0 mm</span>
               </button>
@@ -6329,7 +6333,7 @@ function setHeaderOffsetPreview(offsetMm) {
   if (value) value.textContent = `${offsetMm.toFixed(1)} mm`;
   if (handle) {
     handle.setAttribute("aria-valuenow", String(offsetMm));
-    handle.setAttribute("aria-valuetext", offsetMm === 0 ? "居中" : `${Math.abs(offsetMm).toFixed(1)} 毫米${offsetMm < 0 ? "向上" : "向下"}`);
+    handle.setAttribute("aria-valuetext", offsetMm === 0 ? "默认位置" : `${Math.abs(offsetMm).toFixed(1)} 毫米${offsetMm < 0 ? "向上" : "向下"}`);
   }
 }
 
