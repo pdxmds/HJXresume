@@ -1,8 +1,10 @@
-# 简历排版器
+# HJX简历
 
 一个浏览器本地运行的 Markdown / JSON 简历排版工具。它将结构化简历转换为可编辑的单页 A4 页面，并支持直接保存 Markdown、另存为新版本和通过浏览器导出 PDF。
 
-**[在线使用](https://gracexygu.github.io/resume-formatter/)**
+**[在线使用 HJX简历](https://pdxmds.github.io/HJXresume/)**
+
+本项目基于 [gracexygu/resume-formatter](https://github.com/gracexygu/resume-formatter) 创建，保留 MIT 许可证，可在本仓库中独立修改和发布。
 
 ## 适用场景
 
@@ -42,7 +44,7 @@
 
 ### 在线使用
 
-打开 [GitHub Pages](https://gracexygu.github.io/resume-formatter/)，在右侧“打开”菜单选择：
+打开 [HJX简历](https://pdxmds.github.io/HJXresume/)，在右侧“打开”菜单选择：
 
 1. `打开文件`：选择单个 Markdown 或 JSON，后续“保存”会按原格式写回这个文件；
 2. `打开文件夹`：授权一个本地目录，在侧栏切换多份简历，保存会写回当前文件；
